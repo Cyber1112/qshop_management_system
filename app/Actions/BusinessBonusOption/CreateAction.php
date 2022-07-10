@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Actions\BusinessBonusOption;
+
+use App\Contracts\CreateBusinessBonusOption;
+use App\Dto\Business\BusinessBonusOption\CreateDto;
+use App\Helpers;
+use App\Tasks;
+use Illuminate\Support\Facades\Auth;
+
+class CreateAction implements CreateBusinessBonusOption{
+
+    protected $business_id;
+
+    public function __construct(){
+        $this->business_id = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
+    }
+
+    public function execute(CreateDto $dto): void
+    {
+        $this->delete();
+
+        app(Tasks\BusinessBonusOption\CreateTask::class)->run(
+            $dto->toArray() + ['business_id' => $this->business_id]
+        );
+    }
+
+    public function delete(){
+        app(Tasks\BusinessBonusOption\DeleteTask::class)->run($this->business_id);
+    }
+}
