@@ -7,6 +7,7 @@ use App\Dto\Business\BusinessEmployee\CreateDto;
 use App\Helpers;
 use Illuminate\Support\Facades\Auth;
 use App\Tasks;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class CreateAction implements CreateEmployee{
 
@@ -19,6 +20,8 @@ class CreateAction implements CreateEmployee{
 
     public function execute(CreateDto $dto): void
     {
+        $this->ensureThatCanEditProfile();
+
         $user = $this->createUser([
             "phone_number" => $dto->phone_number,
             "name" => $dto->name,
@@ -51,6 +54,12 @@ class CreateAction implements CreateEmployee{
         app(Tasks\User\GivePermissionsTask::class)->run(
             $user, $permissions
         );
+    }
+
+    public function ensureThatCanEditProfile(){
+        if(!Auth::user()->hasPermissionTo('edit profile')){
+            throw new AccessDeniedHttpException("You do not have permission to edit profile");
+        }
     }
 
 }

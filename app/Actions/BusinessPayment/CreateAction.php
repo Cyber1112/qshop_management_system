@@ -21,6 +21,8 @@ class CreateAction implements CreateBusinessPayment {
 
     public function execute(CreateDto $dto): void
     {
+        $this->ensureThatCanManipulateBonus();
+
         $client = app(Tasks\User\FindByPhoneTask::class)->run($dto->phone_number);
 
         $this->ensureThatUserExists($client);
@@ -118,6 +120,12 @@ class CreateAction implements CreateBusinessPayment {
     public function getClientId(int $user_id): int
     {
         return app(Tasks\ClientAccount\FindByClientIdTask::class)->run($user_id)->id;
+    }
+
+    public function ensureThatCanManipulateBonus(){
+        if(!Auth::user()->hasPermissionTo('manipulate bonus')){
+            throw new AccessDeniedHttpException("You do not have permission to manipulate bonus");
+        }
     }
 
 }

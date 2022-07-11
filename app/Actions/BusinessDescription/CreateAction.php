@@ -6,6 +6,7 @@ use App\Contracts\CreateBusinessDescription;
 use App\Helpers;
 use Illuminate\Support\Facades\Auth;
 use App\Tasks;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class CreateAction implements CreateBusinessDescription{
 
@@ -17,6 +18,8 @@ class CreateAction implements CreateBusinessDescription{
 
     public function execute(string $description): void
     {
+        $this->ensureThatCanEditProfile();
+
         app(Tasks\BusinessDescription\CreateTask::class)->run(
             [
                 'description' => $description,
@@ -24,4 +27,11 @@ class CreateAction implements CreateBusinessDescription{
             ]
         );
     }
+
+    public function ensureThatCanEditProfile(){
+        if(!Auth::user()->hasPermissionTo('edit profile')){
+            throw new AccessDeniedHttpException("You do not have permission to edit profile");
+        }
+    }
+
 }

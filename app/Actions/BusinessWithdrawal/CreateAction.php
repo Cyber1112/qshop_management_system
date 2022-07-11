@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers;
 use App\Tasks;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CreateAction implements CreateBusinessWithdrawal {
@@ -21,6 +22,8 @@ class CreateAction implements CreateBusinessWithdrawal {
 
     public function execute(CreateDto $dto): void
     {
+        $this->ensureThatCanManipulateBonus();
+
         $client = app(Tasks\User\FindByPhoneTask::class)->run($dto->phone_number);
 
         $this->ensureThatUserExists($client);
@@ -83,6 +86,12 @@ class CreateAction implements CreateBusinessWithdrawal {
             'transaction_history_id' => $transaction_id,
             'comment' => $comment
         ]);
+    }
+
+    public function ensureThatCanManipulateBonus(){
+        if(!Auth::user()->hasPermissionTo('manipulate bonus')){
+            throw new AccessDeniedHttpException("You do not have permission to manipulate bonus");
+        }
     }
 
 }
