@@ -49,7 +49,7 @@ class GetClientDetailedPageAction implements GetClientDetailedPage {
     }
 
     public function getData(int $client_id, string $from, string $to){
-        return app(Tasks\TransactionHistory\GetClientDetailedPageTask::class)->run(
+        return app(Tasks\BusinessTransactionHistory\GetClientDetailedPageTask::class)->run(
             $this->business_id,
             $client_id,
             $from,

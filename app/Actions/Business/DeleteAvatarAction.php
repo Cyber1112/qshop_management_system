@@ -2,12 +2,12 @@
 
 namespace App\Actions\Business;
 
-use App\Contracts\DeleteBusinessAvatar;
+use App\Contracts\DeleteAvatar;
 use Illuminate\Support\Facades\Auth;
 use App\Tasks;
 
 
-class DeleteAvatarAction implements DeleteBusinessAvatar {
+class DeleteAvatarAction implements DeleteAvatar {
 
     protected $user_id;
 

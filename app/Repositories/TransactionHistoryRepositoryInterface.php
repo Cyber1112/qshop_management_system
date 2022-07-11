@@ -33,4 +33,15 @@ interface TransactionHistoryRepositoryInterface extends EloquentRepositoryInterf
         array $columns = ['*']
     ): Collection;
 
+    public function getClientTransactionsBetweenDate(
+        int $client_id,
+        string $from,
+        string $to,
+        array $columns = ['*']
+    ): Collection;
+
+    public function getClientTransactions(
+        int $client_id,
+        array $columns = ['*']
+    ): Collection;
 }

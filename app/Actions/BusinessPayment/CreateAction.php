@@ -65,7 +65,7 @@ class CreateAction implements CreateBusinessPayment {
     }
 
     public function createTransactionHistory(int $bonus_percent, int $cash, string $task, $client_id){
-        return app(Tasks\TransactionHistory\CreateTask::class)->run([
+        return app(Tasks\BusinessTransactionHistory\CreateTask::class)->run([
             'bonus_percent' => $bonus_percent,
             'cash' => $cash,
             'task' => $task,

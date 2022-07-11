@@ -56,4 +56,16 @@ class BusinessCategoryRepository extends BaseRepository implements BusinessCateg
             ->join('businesses', 'businesses.id', '=', 'business_child_categories.business_id')
             ->get();
     }
+
+    public function getCategoriesOfBusinesses(int $category_id, array $columns = ['*']): Collection
+    {
+        return $this->model
+            ->query()
+            ->select($columns)
+            ->where('category_id', $category_id)
+            ->join('businesses', 'businesses.id', '=', 'business_id')
+            ->join('business_bonus_options', 'business_bonus_options.business_id', '=', 'businesses.id')
+            ->get();
+
+    }
 }

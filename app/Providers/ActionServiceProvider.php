@@ -16,7 +16,7 @@ class ActionServiceProvider extends ServiceProvider
 
 //        BUSINESS
         Contracts\UpdateBusinessProfile::class => Actions\Business\UpdateProfileAction::class,
-        Contracts\DeleteBusinessAvatar::class => Actions\Business\DeleteAvatarAction::class,
+        Contracts\DeleteAvatar::class => Actions\Business\DeleteAvatarAction::class,
         Contracts\CreateBusinessDescription::class => Actions\BusinessDescription\CreateAction::class,
         Contracts\UpdateBusinessDescription::class => Actions\BusinessDescription\UpdateAction::class,
         Contracts\UpdateCity::class => Actions\User\UpdateCityAction::class,
@@ -37,6 +37,14 @@ class ActionServiceProvider extends ServiceProvider
         Contracts\GetClientDetailedPage::class => Actions\TransactionsHistory\GetClientDetailedPageAction::class,
         Contracts\GetClientAllDetailsPage::class => Actions\TransactionsHistory\GetClientAllDetailsPageAction::class,
         Contracts\GetBusinessStatistics::class => Actions\BusinessStatistics\GetAction::class,
-        Contracts\CreateTransactionHistoryComment::class => Actions\TransactionHistoryComment\CreateAction::class
+        Contracts\CreateTransactionHistoryComment::class => Actions\TransactionHistoryComment\CreateAction::class,
+
+//        CLIENT
+        Contracts\GetClientPartners::class => Actions\ClientPartners\GetAction::class,
+        Contracts\GetClientTransactionsHistory::class => Actions\ClientTransactionsHistory\GetAction::class,
+        Contracts\GetClientCategoriesOfBusinesses::class => Actions\ClientCategoriesOfBusinesses\GetAction::class,
+        Contracts\UpdateClientProfile::class => Actions\Client\UpdateProfileAction::class,
+        Contracts\GetClientUnactivatedBonus::class => Actions\ClientPartners\GetUnactivatedBonusAction::class,
+        Contracts\GetClientMainPage::class => Actions\Client\GetAction::class,
     ];
 }

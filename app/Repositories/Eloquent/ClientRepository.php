@@ -34,29 +34,5 @@ class ClientRepository extends BaseRepository implements ClientRepositoryInterfa
             ->first();
     }
 
-    /**
-     * @param int $client_id
-     * @param int $cash
-     * @return int|null
-     */
-    public function incrementBonus(int $client_id, int $cash): ?int
-    {
-        return $this->model
-                ->query()
-                ->where('id', $client_id)
-                ->increment('balance', $cash);
-    }
 
-    /**
-     * @param int $client_id
-     * @param int $cash
-     * @return int|null
-     */
-    public function decrementBonus(int $client_id, int $cash): ?int
-    {
-        return $this->model
-            ->query()
-            ->where('id', $client_id)
-            ->decrement('balance', $cash);
-    }
 }

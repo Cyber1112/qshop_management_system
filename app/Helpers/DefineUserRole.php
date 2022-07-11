@@ -14,9 +14,9 @@ class DefineUserRole{
         if ($user->hasRole('business')){
             return $this->getBusinessIdByBusiness($user);
         }
-//        if( $user->hasRole('client') ){
-//            return $this->getClientId($user);
-//        }
+        if( $user->hasRole('client') ){
+            return $this->getClientId($user);
+        }
 
     }
 
@@ -32,9 +32,11 @@ class DefineUserRole{
         )->id;
     }
 
-//    public function getClientId($user){
-//        return app(Tasks\Client\FindTask::class)->run($user->id)->id;
-//    }
+    public function getClientId($user){
+        return app(Tasks\ClientAccount\FindByClientIdTask::class)->run(
+            $user->id
+        )->id;
+    }
 
 }
 

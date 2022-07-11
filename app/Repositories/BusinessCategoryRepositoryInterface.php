@@ -22,4 +22,11 @@ interface BusinessCategoryRepositoryInterface extends EloquentRepositoryInterfac
      */
     public function getBusinessCategories(int $business_id, array $columns = ['*']): Collection;
 
+    /**
+     * @param int $category_id
+     * @param array $columns
+     * @return Collection
+     */
+    public function getCategoriesOfBusinesses(int $category_id, array $columns = ['*']): Collection;
+
 }

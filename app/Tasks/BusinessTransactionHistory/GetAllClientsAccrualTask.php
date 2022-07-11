@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Tasks\TransactionHistory;
+namespace App\Tasks\BusinessTransactionHistory;
 
 use App\Repositories\TransactionHistoryRepositoryInterface;
 
-class GetBusinessAllTransactionsTask{
+class GetAllClientsAccrualTask{
 
     private TransactionHistoryRepositoryInterface $historyRepository;
 
@@ -14,7 +14,7 @@ class GetBusinessAllTransactionsTask{
     }
 
     public function run(int $business_id, array $columns = ['*']){
-        return $this->historyRepository->getBusinessAllTransactions($business_id, $columns);
+        return $this->historyRepository->getBusinessClientsAccrual($business_id, $columns);
     }
 
 }

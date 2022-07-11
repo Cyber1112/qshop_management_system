@@ -21,7 +21,7 @@ class GetAction implements GetBusinessStatistics {
     public function execute(string $period): Collection
     {
 
-        $data = app(Tasks\TransactionHistory\GetBusinessAllTransactionsTask::class)->run(
+        $data = app(Tasks\BusinessTransactionHistory\GetBusinessAllTransactionsTask::class)->run(
             $this->business_id,
             ['cash', 'created_at']
         );

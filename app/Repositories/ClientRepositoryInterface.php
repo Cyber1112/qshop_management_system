@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Client;
+use Illuminate\Database\Eloquent\Collection;
 
 interface ClientRepositoryInterface extends EloquentRepositoryInterface{
 
@@ -21,23 +22,4 @@ interface ClientRepositoryInterface extends EloquentRepositoryInterface{
     ): ?Client;
 
 
-    /**
-     * @param int $client_id
-     * @param int $cash
-     * @return int|null
-     */
-    public function incrementBonus(
-        int $client_id,
-        int $cash
-    ): ?int;
-
-    /**
-     * @param int $client_id
-     * @param int $cash
-     * @return int|null
-     */
-    public function decrementBonus(
-        int $client_id,
-        int $cash
-    ): ?int;
 }

@@ -52,4 +52,34 @@ interface BusinessClientBonusRepositoryInterface extends EloquentRepositoryInter
         int $client_id
     ):int;
 
+    /**
+     * @param int $client_id
+     * @param array $columns
+     * @param array $relations
+     * @param array $relations_count
+     * @return Collection
+     */
+    public function getClientPartners(
+        int $client_id,
+        array $columns = ['*'],
+        array $relations = [],
+        array $relations_count = []
+    ): Collection;
+
+
+    /**
+     * @param int $client_id
+     * @param array $columns
+     * @return Collection
+     */
+    public function getClientActivatedBonus(
+        int $client_id,
+        array $columns = ['*']
+    ): Collection;
+
+    public function getClientBonuses(
+        int $client_id,
+        array $columns = ['*']
+    ): Collection;
+
 }

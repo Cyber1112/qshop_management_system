@@ -14,6 +14,8 @@ use App\Traits\Business\HasUser;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use App\Helpers;
 
 /**
  * App\Models\Business
@@ -31,6 +33,13 @@ class Business extends Model
         'balance',
         'user_id'
     ];
+
+    public function getClientBonus(){
+        $client = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
+        return $this->clientBonus()->where('client_id', $client)
+            ->where('activation_bonus_date', '<', now()->toDateTimeString())
+            ->sum('business_client_bonuses.balance');
+    }
 
 
 }

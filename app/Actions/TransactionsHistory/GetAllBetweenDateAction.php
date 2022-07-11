@@ -34,7 +34,7 @@ class GetAllBetweenDateAction implements GetAllTransactionsHistoryBetweenDate{
     }
 
     public function getData(string $from, string $to){
-        return app(Tasks\TransactionHistory\GetBusinessTransactionsBetweenDate::class)->run(
+        return app(Tasks\BusinessTransactionHistory\GetBusinessTransactionsBetweenDate::class)->run(
             $this->business_id,
             $from,
             $to,

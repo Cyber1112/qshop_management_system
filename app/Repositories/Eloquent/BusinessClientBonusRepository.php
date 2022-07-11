@@ -87,4 +87,44 @@ class BusinessClientBonusRepository extends BaseRepository implements BusinessCl
             ->sum('balance');
     }
 
+    /**
+     * @param int $client_id
+     * @param array $columns
+     * @param array $relations
+     * @param array $relations_count
+     * @return Collection
+     */
+    public function getClientPartners(int $client_id, array $columns = ['*'], array $relations = [], array $relations_count = []): Collection
+    {
+        return $this->model
+            ->query()
+            ->select($columns)
+            ->where('client_id', $client_id)
+            ->join('businesses', 'businesses.id', '=', 'business_id')
+            ->get();
+    }
+
+    /**
+     * @param int $client_id
+     * @param array $columns
+     * @return Collection
+     */
+    public function getClientActivatedBonus(int $client_id, array $columns = ['*']): Collection
+    {
+        return $this->model
+            ->query()
+            ->select($columns)
+            ->where('client_id', $client_id)
+            ->where('activation_bonus_date', '<', now()->toDateTimeString())
+            ->get();
+    }
+
+    public function getClientBonuses(int $client_id, array $columns = ['*']): Collection
+    {
+        return $this->model
+            ->query()
+            ->select($columns)
+            ->where('client_id', $client_id)
+            ->get();
+    }
 }

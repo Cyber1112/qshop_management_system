@@ -2,7 +2,7 @@
 
 namespace App\Contracts;
 
-interface DeleteBusinessAvatar{
+interface DeleteAvatar{
 
     /**
      * @return void

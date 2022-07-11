@@ -1,9 +1,12 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Category\ChildCategoryController;
+use App\Http\Controllers\Category\ParentCategoryController;
 use App\Http\Controllers\User\Business\AboutBusinessController;
 use App\Http\Controllers\User\Business\BonusOptionsController;
-use App\Http\Controllers\User\Business\CategoryController;
+use App\Http\Controllers\User\Business\CategoryController as BusinessCategoryController;
 use App\Http\Controllers\User\Business\ClientController as BusinessClientController;
 use App\Http\Controllers\User\Business\ContactsController;
 use App\Http\Controllers\User\Business\DescriptionController;
@@ -13,9 +16,14 @@ use App\Http\Controllers\User\Business\ScheduleController;
 use App\Http\Controllers\User\Business\PaymentController;
 use App\Http\Controllers\User\Business\StatisticsController;
 use App\Http\Controllers\User\Business\TransactionHistoryCommentController;
-use App\Http\Controllers\User\Business\TransactionsHistoryController;
+use App\Http\Controllers\User\Business\TransactionsHistoryController as BusinessTransactionsHistoryController;
 use App\Http\Controllers\User\Business\WriteOffController;
 use App\Http\Controllers\User\City\CityController;
+use App\Http\Controllers\User\Client\CategoryController as ClientCategoryController;
+use App\Http\Controllers\User\Client\MainPageController as ClientMainPageController;
+use App\Http\Controllers\User\Client\PartnersController as ClientPartnersController;
+use App\Http\Controllers\User\Client\ProfileController as ClientProfileController;
+use App\Http\Controllers\User\Client\TransactionsHistoryController as ClientTransactionsHistoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -56,8 +64,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         });
 
         Route::prefix('category')->group(function(){
-            Route::get('/get', [CategoryController::class, 'get']);
-            Route::post('/create', [CategoryController::class, 'createOrUpdate']);
+            Route::get('/get', [BusinessCategoryController::class, 'get']);
+            Route::post('/create', [BusinessCategoryController::class, 'createOrUpdate']);
         });
 
         Route::prefix('employee')->group(function (){
@@ -80,9 +88,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         });
 
         Route::prefix('transactions')->group(function(){
-            Route::get('/get', [TransactionsHistoryController::class, 'getBetweenDate']);
-            Route::get('/get-all', [TransactionsHistoryController::class, 'getAllBetweenDate']);
-            Route::get('/get-client-detail/{history}', [TransactionsHistoryController::class, 'getDetailClientTransaction']);
+            Route::get('/get', [BusinessTransactionsHistoryController::class, 'getBetweenDate']);
+            Route::get('/get-all', [BusinessTransactionsHistoryController::class, 'getAllBetweenDate']);
+            Route::get('/get-client-detail/{history}', [BusinessTransactionsHistoryController::class, 'getDetailClientTransaction']);
             Route::prefix('comment')->group(function(){
                 Route::post('/create/{history}', [TransactionHistoryCommentController::class, 'create']);
             });
@@ -99,6 +107,41 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         });
     });
 
-    Route::prefix('client')->group(function(){});
+    Route::prefix('client')->group(function(){
+
+        Route::prefix('main')->group(function (){
+            Route::get('get', [ClientMainPageController::class, 'get']);
+            Route::get('get-unactivated-bonus', [ClientMainPageController::class, 'getUnactivatedBonus']);
+        });
+
+        Route::prefix('profile')->group(function(){
+            Route::get('get', [ClientProfileController::class, 'index']);
+            Route::post('update', [ClientProfileController::class, 'update']);
+            Route::post('delete', [ClientProfileController::class, 'deleteAvatar']);
+        });
+
+        Route::prefix('partners')->group(function(){
+            Route::get('get', [ClientPartnersController::class, 'get']);
+            Route::get('detail/{business}', [ClientPartnersController::class, 'showPartner']);
+        });
+
+        Route::prefix('transactions')->group(function(){
+            Route::get('get-detail/{history}', [ClientTransactionsHistoryController::class, 'getDetail']);
+            Route::get('get-all', [ClientTransactionsHistoryController::class, 'getAll']);
+        });
+
+        Route::prefix('category')->group(function(){
+            Route::get('get/{category}', [ClientCategoryController::class, 'get']);
+        });
+
+
+    });
+
+    Route::prefix('category')->group(function(){
+        Route::get('get-parent', [ParentCategoryController::class, 'get']);
+        Route::get('get-child/{category}', [ChildCategoryController::class, 'get']);
+    });
+
+    Route::post('/logout', [LogoutController::class, 'logout']);
 
 });

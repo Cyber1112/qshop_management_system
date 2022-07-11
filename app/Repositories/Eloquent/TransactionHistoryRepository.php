@@ -60,4 +60,24 @@ class TransactionHistoryRepository extends BaseRepository implements Transaction
             ->where('task', '=','accrual')
             ->get();
     }
+
+    public function getClientTransactionsBetweenDate(int $client_id, string $from, string $to, array $columns = ['*']): Collection
+    {
+        return $this->model
+            ->query()
+            ->select($columns)
+            ->where('client_id', $client_id)
+            ->whereBetween('transaction_histories.created_at', [$from, $to])
+            ->join('businesses', 'businesses.id', '=', 'transaction_histories.business_id')
+            ->get();
+    }
+
+    public function getClientTransactions(int $client_id, array $columns = ['*']): Collection
+    {
+        return $this->model
+            ->query()
+            ->select($columns)
+            ->where('client_id', $client_id)
+            ->get();
+    }
 }

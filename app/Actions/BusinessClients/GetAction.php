@@ -24,7 +24,7 @@ class GetAction implements GetBusinessClients{
     }
 
     public function getData(){
-        return app(Tasks\TransactionHistory\GetAllClientsAccrualTask::class)->run(
+        return app(Tasks\BusinessTransactionHistory\GetAllClientsAccrualTask::class)->run(
             $this->business_id,
             ['transaction_histories.bonus_percent', 'transaction_histories.cash',
                 'users.name', 'users.phone_number', 'clients.id as client_id']

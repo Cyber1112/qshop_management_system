@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tasks\TransactionHistory;
+namespace App\Tasks\BusinessTransactionHistory;
 
 use App\Repositories\TransactionHistoryRepositoryInterface;
 

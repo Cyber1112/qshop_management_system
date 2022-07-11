@@ -53,7 +53,7 @@ class CreateAction implements CreateBusinessWithdrawal {
 
     public function setTransactionHistory(int $cash, string $task, int $client_id){
 
-        return app(Tasks\TransactionHistory\CreateTask::class)->run([
+        return app(Tasks\BusinessTransactionHistory\CreateTask::class)->run([
             'cash' => $cash,
             'task' => $task,
             'client_id' => $client_id,

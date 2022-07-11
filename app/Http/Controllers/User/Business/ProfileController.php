@@ -28,7 +28,7 @@ class ProfileController extends Controller
 
     public function deleteAvatar(Request $request): Response
     {
-        app(Contracts\DeleteBusinessAvatar::class)->execute();
+        app(Contracts\DeleteAvatar::class)->execute();
 
         return response()->noContent();
     }

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Tasks\TransactionHistory;
+namespace App\Tasks\ClientTransactionsHistory;
 
 use App\Repositories\TransactionHistoryRepositoryInterface;
 
-class GetClientDetailedPageTask{
+class GetTask{
 
     private TransactionHistoryRepositoryInterface $historyRepository;
 
@@ -13,12 +13,9 @@ class GetClientDetailedPageTask{
         $this->historyRepository = $historyRepository;
     }
 
-    public function run(int $business_id, int $client_id, string $from, string $to, array $columns = ['*']){
-        return $this->historyRepository->getClientDetailsInformation(
-            $business_id,
+    public function run(int $client_id, array $columns = ['*']){
+        return $this->historyRepository->getClientTransactions(
             $client_id,
-            $from,
-            $to,
             $columns
         );
     }
