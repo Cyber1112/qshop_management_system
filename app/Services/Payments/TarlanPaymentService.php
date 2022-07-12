@@ -24,7 +24,7 @@ class TarlanPaymentService
 
     public function __construct()
     {
-        $this->baseUri = "api.tarlanpayments.kz/";
+        $this->baseUri = "https://api.tarlanpayments.kz/";
         $this->merchant_id = 1;
         $this->secret_key = 123456;
         $this->is_test = config('services.tarlanpayment.is_test');
