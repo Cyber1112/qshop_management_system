@@ -46,5 +46,11 @@ class ActionServiceProvider extends ServiceProvider
         Contracts\UpdateClientProfile::class => Actions\Client\UpdateProfileAction::class,
         Contracts\GetClientUnactivatedBonus::class => Actions\ClientPartners\GetUnactivatedBonusAction::class,
         Contracts\GetClientMainPage::class => Actions\Client\GetAction::class,
+
+
+//        CARD
+        Contracts\APIGetAllCardsContract::class => Actions\Card\GetAllAction::class,
+        Contracts\APIAddCardContract::class => Actions\Card\AddAction::class,
+        Contracts\APIDeleteCardContract::class => Actions\Card\DeleteAction::class,
     ];
 }

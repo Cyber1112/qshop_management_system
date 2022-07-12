@@ -6,6 +6,7 @@ use App\Http\Controllers\Category\ChildCategoryController;
 use App\Http\Controllers\Category\ParentCategoryController;
 use App\Http\Controllers\User\Business\AboutBusinessController;
 use App\Http\Controllers\User\Business\BonusOptionsController;
+use App\Http\Controllers\User\Business\CardController;
 use App\Http\Controllers\User\Business\CategoryController as BusinessCategoryController;
 use App\Http\Controllers\User\Business\ClientController as BusinessClientController;
 use App\Http\Controllers\User\Business\ContactsController;
@@ -40,6 +41,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::post('/update', [BusinessProfileController::class, 'update']);
             Route::post('/delete', [BusinessProfileController::class, 'deleteAvatar']);
         });
+
+        Route::prefix('card')->group(function(){
+            Route::get('/get', [CardController::class, 'index']);
+            Route::post('/add', [CardController::class, 'add']);
+            Route::delete('/delete/{card_id}', [CardController::class, 'delete']);
+        });
+
         Route::prefix('city')->group(function(){
             Route::get('get', [CityController::class, 'show']);
             Route::put('/set', [CityController::class, 'setCity']);

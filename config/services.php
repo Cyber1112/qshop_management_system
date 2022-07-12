@@ -31,4 +31,11 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'tarlanpayment' => [
+        'baseUri' => env('TARLANPAYMENT_BASE_URI', 'baseUri'),
+        'merchant_id' => env('TARLANPAYMENT_MERCHANT_ID', 'merchant_id'),
+        'secret_key' => env('TARLANPAYMENT_SECRET_KEY', 'secret_key'),
+        'is_test' => env('TARLANPAYMENT_IS_TEST', true),
+    ],
+
 ];
