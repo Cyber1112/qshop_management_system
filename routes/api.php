@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Category\ChildCategoryController;
 use App\Http\Controllers\Category\ParentCategoryController;
 use App\Http\Controllers\User\Business\AboutBusinessController;
+use App\Http\Controllers\User\Business\BalanceController;
 use App\Http\Controllers\User\Business\BonusOptionsController;
 use App\Http\Controllers\User\Business\CardController;
 use App\Http\Controllers\User\Business\CategoryController as BusinessCategoryController;
@@ -46,6 +47,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::get('/get', [CardController::class, 'index']);
             Route::post('/add', [CardController::class, 'add']);
             Route::delete('/delete/{card_id}', [CardController::class, 'delete']);
+        });
+
+        Route::prefix('accrue-balance')->group(function(){
+            Route::post('/choose-card', [BalanceController::class, 'chooseCard']);
+            Route::post('/confirm', [BalanceController::class, 'confirm']);
         });
 
         Route::prefix('city')->group(function(){
