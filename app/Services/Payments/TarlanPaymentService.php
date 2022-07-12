@@ -84,7 +84,7 @@ class TarlanPaymentService
     {
         $secret_key = Hash::make($this->merchant_id . $user->id . $this->secret_key);
 
-        return Http::get($this->baseUri . 'api/cards/paying', [
+        return Http::get($this->baseUri . 'api/cards/payin', [
             'user_id' => $user->id,
             'merchant_id' => intval($this->merchant_id),
             'secret_key' => $secret_key,
@@ -110,7 +110,7 @@ class TarlanPaymentService
     {
         $secret_key = Hash::make($this->merchant_id.$user->id.$this->secret_key);
 
-        return Http::delete($this->baseUri . 'api/cards/paying', [
+        return Http::delete($this->baseUri . 'api/cards/payin', [
             'card_id' => $card_id,
             'merchant_id' => $this->merchant_id,
             'user_id' => $user->id,
