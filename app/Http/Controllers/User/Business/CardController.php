@@ -31,7 +31,7 @@ class CardController extends Controller
      */
     public function index()
     {
-        $response = $this->get_all_cards_action->apply(User::find(Auth::user()));
+        $response = $this->get_all_cards_action->apply(User::find(Auth::user())->first());
 
         if(is_array($response)) {
             return response()->json($response, 200);
@@ -43,7 +43,7 @@ class CardController extends Controller
      */
     public function add()
     {
-        $response = $this->add_card_action->apply(User::find(Auth::user()));
+        $response = $this->add_card_action->apply(User::find(Auth::user())->first());
 
         if(is_array($response)) {
             return new CardAddResource($response);
@@ -56,7 +56,7 @@ class CardController extends Controller
      */
     public function delete($card_id)
     {
-        $response = $this->delete_card_action->apply(User::find(Auth::user()), $card_id);
+        $response = $this->delete_card_action->apply(User::find(Auth::user())->first(), $card_id);
 
         if(!$response){
             return response()->json([], 200);
