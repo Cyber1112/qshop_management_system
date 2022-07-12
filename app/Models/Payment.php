@@ -13,7 +13,7 @@ class Payment extends Model
     const STATUS_NOT_PAID = 'not_paid';
 
     protected $fillable = [
-        'user_id', 'phone', 'email', 'amount', 'description', 'hash', 'redirect_url',
+        'user_id', 'phone_number', 'email', 'amount', 'description', 'hash', 'redirect_url',
         'request_url', 'status_id', 'paymentable_type', 'paymentable_id'
     ];
 
