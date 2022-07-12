@@ -8,7 +8,7 @@ use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use App\Helpers;
 
 class ConfirmAction extends BalanceAction implements APIConfirmBalanceContract {
 
@@ -34,7 +34,8 @@ class ConfirmAction extends BalanceAction implements APIConfirmBalanceContract {
 
         if (isset($payment_response['success']) && $payment_response['success'])
         {
-            $business = Business::find(Auth::user())->first();
+            $business_id = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
+            $business = Business::find($business_id)->first();
 
             $this->businessBalanceRepository->accrueBalance($business->id, $cash);
 
