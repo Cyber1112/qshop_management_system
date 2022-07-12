@@ -14,7 +14,6 @@ class RepositoryServiceProvider extends ServiceProvider
 
         Repositories\ChildCategoryRepositoryInterface::class => Repositories\Eloquent\ChildCategoryRepository::class,
 
-//        BUSINESS
         Repositories\BusinessRepositoryInterface::class => Repositories\Eloquent\BusinessRepository::class,
         Repositories\BusinessScheduleRepositoryInterface::class => Repositories\Eloquent\BusinessScheduleRepository::class,
         Repositories\BusinessCategoryRepositoryInterface::class => Repositories\Eloquent\BusinessCategoryRepository::class,
@@ -26,6 +25,6 @@ class RepositoryServiceProvider extends ServiceProvider
         Repositories\TransactionHistoryRepositoryInterface::class => Repositories\Eloquent\TransactionHistoryRepository::class,
         Repositories\ClientRepositoryInterface::class => Repositories\Eloquent\ClientRepository::class,
         Repositories\TransactionHistoryCommentRepositoryInterface::class => Repositories\Eloquent\TransactionHistoryCommentRepository::class,
-
+        Repositories\PaymentRepositoryInterface::class => Repositories\Eloquent\PaymentRepository::class,
     ];
 }

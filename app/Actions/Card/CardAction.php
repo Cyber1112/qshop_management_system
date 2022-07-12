@@ -12,7 +12,7 @@ abstract class CardAction
 
     public function __construct(TarlanPaymentService $tarlan_payment_service)
     {
-        $this->request_url = URL::to('/');
+        $this->request_url = URL::to('/api');
         $this->tarlan_payment_service = $tarlan_payment_service;
     }
 }

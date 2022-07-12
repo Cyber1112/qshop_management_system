@@ -61,4 +61,12 @@ class BusinessRepository extends BaseRepository implements BusinessRepositoryInt
             ->where('id', $business_id)
             ->decrement('balance', $cash);
     }
+
+    public function accrueBalance(int $business_id, int $cash): ?int
+    {
+        return $this->model
+            ->query()
+            ->where('id', $business_id)
+            ->increment('balance', $cash);
+    }
 }

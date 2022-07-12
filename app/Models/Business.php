@@ -28,6 +28,8 @@ class Business extends Model
         HasSchedule, HasChildCategories, HasEmployees,
         HasBonus, HasTransactions, HasClientBonus, HasUser;
 
+    const NAMESPACE = 'App\Models\Business';
+
     protected $fillable = [
         'business_name',
         'balance',

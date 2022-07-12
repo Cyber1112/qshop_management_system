@@ -38,4 +38,10 @@ interface BusinessRepositoryInterface extends EloquentRepositoryInterface{
      */
     public function writeOffCash(int $business_id, int $cash): ?int;
 
+
+    public function accrueBalance(
+        int $business_id,
+        int $cash
+    ): ?int;
+
 }
