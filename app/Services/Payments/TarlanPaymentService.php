@@ -101,8 +101,7 @@ class TarlanPaymentService
             'merchant_id' => $this->merchant_id,
             'secret_key' => $secret_key,
             'is_test' => $this->is_test,
-            'request_url' => $request_url,
-            'back_url' => $this->baseUri."check.php",
+            'request_url' => $request_url
         ])->json();
     }
 
