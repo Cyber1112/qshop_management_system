@@ -33,7 +33,7 @@ class PartnerAboutResource extends JsonResource
                 'site_location' => $this->contact->site_location,
             ],
             'schedule' => [
-                'work_schedule' => $this->schedule->workint_schedule_type,
+                'work_schedule' => $this->schedule->working_schedule_type,
                 'work_start' => $this->schedule->work_start,
                 'work_end' => $this->schedule->work_end,
             ],
