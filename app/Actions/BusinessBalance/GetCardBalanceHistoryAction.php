@@ -19,6 +19,7 @@ class GetCardBalanceHistoryAction extends BalanceAction implements ApiGetCardBal
         )->map(function ($row){
             return [
                 'amount' => $row['amount'],
+                'description' => $row['description'],
                 'created_at' => date('Y-m-d', strtotime($row['created_at']))
             ];
         })->groupBy('created_at');
