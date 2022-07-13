@@ -30,8 +30,9 @@ class EmployeeController extends Controller
 
     public function deleteEmployee(Request $request, Employee $employee): Response
     {
+        $employee->user->delete();
         $employee->delete();
-
+        
         return response()->noContent();
     }
 
