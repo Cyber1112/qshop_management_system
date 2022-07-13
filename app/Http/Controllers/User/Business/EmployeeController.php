@@ -32,7 +32,7 @@ class EmployeeController extends Controller
     {
         $employee->user->delete();
         $employee->delete();
-        
+
         return response()->noContent();
     }
 

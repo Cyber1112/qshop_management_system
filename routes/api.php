@@ -132,7 +132,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::prefix('profile')->group(function(){
             Route::get('get', [ClientProfileController::class, 'index']);
             Route::post('update', [ClientProfileController::class, 'update']);
-            Route::post('delete', [ClientProfileController::class, 'deleteAvatar']);
+            Route::delete('delete', [ClientProfileController::class, 'deleteAvatar']);
         });
 
         Route::prefix('partners')->group(function(){

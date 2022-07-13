@@ -24,6 +24,6 @@ class GetAction implements GetClientPartners{
                 'businesses.id as business_id']
         )->filter(function($row){
             return $row['activation_bonus_date'] < now()->toDateTimeString();
-        });
+        })->values();
     }
 }
