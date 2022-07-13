@@ -15,7 +15,7 @@ class GetCardBalanceHistoryAction extends BalanceAction implements ApiGetCardBal
         $business_id = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
 
         return $this->payment_repository->getBusinessBalanceHistory(
-            $business_id, ['amount', 'created_at']
+            $business_id, ['amount', 'created_at', 'description']
         )->map(function ($row){
             return [
                 'amount' => $row['amount'],
