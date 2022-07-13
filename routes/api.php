@@ -139,6 +139,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::prefix('partners')->group(function(){
             Route::get('get', [ClientPartnersController::class, 'get']);
             Route::get('detail/{business}', [ClientPartnersController::class, 'showPartner']);
+            Route::get('search', [ClientPartnersController::class, 'search']);
         });
 
         Route::prefix('transactions')->group(function(){

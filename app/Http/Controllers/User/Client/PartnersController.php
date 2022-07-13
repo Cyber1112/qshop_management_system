@@ -19,4 +19,12 @@ class PartnersController extends Controller
     {
         return new Resources\User\Client\PartnerAboutResource($business);
     }
+
+    public function search(Request $request){
+        $data = app(Contracts\GetClientPartners::class)->execute();
+        $searchVal = $request->search;
+        return $data->filter(function($row) use ($searchVal){
+            return false !== stripos($row['business_name'], $searchVal);
+        })->values();
+    }
 }

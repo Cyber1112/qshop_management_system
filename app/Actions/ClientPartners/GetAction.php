@@ -24,6 +24,13 @@ class GetAction implements GetClientPartners{
                 'businesses.id as business_id']
         )->filter(function($row){
             return $row['activation_bonus_date'] < now()->toDateTimeString();
+        })->groupBy('business_name')->map(function ($row){
+            $firstRow = $row->first();
+            return [
+                'business_id' => $firstRow['business_id'],
+                'business_name' => $firstRow['business_name'],
+                'balance' => $row->sum('balance')
+            ];
         })->values();
     }
 }
