@@ -21,7 +21,7 @@ class GetEmployeesAction implements GetBusinessEmployees {
     {
         return app(Tasks\BusinessEmployee\GetBusinessEmployeesTask::class)->run(
             $this->business_id,
-            ['employees.id as client_id', 'employees.position',
+            ['employees.id as employee_id', 'employees.position',
                 'users.name', 'users.phone_number']
         );
     }

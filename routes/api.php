@@ -40,7 +40,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::prefix('account')->group(function (){
             Route::get('/get', [BusinessProfileController::class, 'index']);
             Route::post('/update', [BusinessProfileController::class, 'update']);
-            Route::post('/delete', [BusinessProfileController::class, 'deleteAvatar']);
+            Route::delete('/delete', [BusinessProfileController::class, 'deleteAvatar']);
         });
 
         Route::prefix('card')->group(function(){
