@@ -55,5 +55,6 @@ class ActionServiceProvider extends ServiceProvider
 
         Contracts\APIConfirmBalanceContract::class => Actions\BusinessBalance\ConfirmAction::class,
         Contracts\APIChooseCardContract::class => Actions\BusinessBalance\ChooseCardAction::class,
+        Contracts\ApiGetCardBalanceHistory::class => Actions\BusinessBalance\GetCardBalanceHistoryAction::class,
     ];
 }

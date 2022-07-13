@@ -3,7 +3,6 @@
 namespace App\Helpers;
 
 use App\Tasks;
-use Symfony\Component\Finder\Exception\AccessDeniedException;
 
 class DefineUserRole{
 

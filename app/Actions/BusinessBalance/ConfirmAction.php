@@ -39,6 +39,7 @@ class ConfirmAction extends BalanceAction implements APIConfirmBalanceContract {
         /** @var Payment $payment */
         $payment = $this->payment_repository->create([
             'user_id' => $user->id,
+            'business_id' => $this->business_id,
             'amount' => $cash,
             'description' => 'Пополнение баланса',
             'phone_number' => $user->phone_number,

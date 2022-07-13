@@ -69,4 +69,5 @@ class BusinessRepository extends BaseRepository implements BusinessRepositoryInt
             ->where('id', $business_id)
             ->increment('balance', $cash);
     }
+
 }

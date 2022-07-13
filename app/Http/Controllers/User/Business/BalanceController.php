@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User\Business;
 
 use App\Contracts\APIChooseCardContract;
 use App\Contracts\APIConfirmBalanceContract;
+use App\Contracts\ApiGetCardBalanceHistory;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Business\Balance\APIChooseCardRequest;
 use App\Http\Requests\Business\Balance\APIConfirmRequest;
@@ -16,16 +17,21 @@ use Throwable;
 class BalanceController extends Controller
 {
 
-    protected $choose_card_action;
-    protected $confirm_action;
+    protected APIChooseCardContract $choose_card_action;
+    protected APIConfirmBalanceContract $confirm_action;
+    protected ApiGetCardBalanceHistory $balanceHistory;
 
-    public function __construct(APIChooseCardContract $choose_card_action, APIConfirmBalanceContract $confirm_action)
+    public function __construct(APIChooseCardContract $choose_card_action, APIConfirmBalanceContract $confirm_action, ApiGetCardBalanceHistory $balanceHistory)
     {
         $this->choose_card_action = $choose_card_action;
         $this->confirm_action = $confirm_action;
-
+        $this->balanceHistory = $balanceHistory;
     }
 
+
+    public function get(Request $request){
+        return $this->balanceHistory->execute();
+    }
 
     /**
      * @param APIChooseCardRequest $request

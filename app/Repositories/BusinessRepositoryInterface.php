@@ -20,7 +20,6 @@ interface BusinessRepositoryInterface extends EloquentRepositoryInterface{
         array $relations_count = []
     ): ?Business;
 
-
     /**
      * @param int $business_id
      * @param string $business_name

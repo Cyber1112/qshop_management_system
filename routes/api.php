@@ -50,6 +50,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         });
 
         Route::prefix('accrue-balance')->group(function(){
+            Route::get('get', [BalanceController::class, 'get']);
             Route::post('/choose-card', [BalanceController::class, 'chooseCard']);
             Route::post('/confirm', [BalanceController::class, 'confirm']);
         });
