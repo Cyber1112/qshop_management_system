@@ -31,4 +31,12 @@ class ClientController extends Controller
         );
     }
 
+    public function search(Request $request){
+        $data = app(Contracts\GetBusinessClients::class)->execute();
+        $searchVal = $request->search;
+        return $data->filter(function($row) use ($searchVal){
+            return false !== stripos($row['name'], $searchVal) || false !== stripos($row['phone_number'], $searchVal);
+        })->values();
+    }
+
 }
