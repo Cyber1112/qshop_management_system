@@ -6,23 +6,12 @@ use App\Contracts\APIConfirmBalanceContract;
 use App\Models\Business;
 use App\Models\Payment;
 use App\Models\User;
-use App\Repositories\BusinessRepositoryInterface;
-use App\Repositories\PaymentRepositoryInterface;
-use App\Services\Payments\TarlanPaymentService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class ConfirmAction extends BalanceAction implements APIConfirmBalanceContract {
-
-    protected $business_id;
-
-    public function __construct(BusinessRepositoryInterface $businessBalanceRepository, PaymentRepositoryInterface $paymentRepository, TarlanPaymentService $tarlan_payment_service)
-    {
-        $this->business_id = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
-        parent::__construct($businessBalanceRepository, $paymentRepository, $tarlan_payment_service);
-    }
 
     /**
      * @param User $user
@@ -33,13 +22,14 @@ class ConfirmAction extends BalanceAction implements APIConfirmBalanceContract {
      */
     public function apply(User $user, $card_id, $cash)
     {
+        $business_id = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
 
         $this->ensureThatCanReplenishBalance();
 
         /** @var Payment $payment */
         $payment = $this->payment_repository->create([
             'user_id' => $user->id,
-            'business_id' => $this->business_id,
+            'business_id' => $business_id,
             'amount' => $cash,
             'description' => 'Пополнение баланса',
             'phone_number' => $user->phone_number,
@@ -50,7 +40,7 @@ class ConfirmAction extends BalanceAction implements APIConfirmBalanceContract {
         if (isset($payment_response['success']) && $payment_response['success'])
         {
 
-            $business = Business::find($this->business_id)->first();
+            $business = Business::find($business_id)->first();
 
             $this->businessBalanceRepository->accrueBalance($business->id, $cash);
 
