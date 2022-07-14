@@ -7,6 +7,7 @@ use App\Models\TransactionHistory;
 use Illuminate\Http\Request;
 use App\Contracts;
 use App\Http\Resources;
+use App\Helpers\PaginationHelper;
 
 class TransactionsHistoryController extends Controller
 {
@@ -16,10 +17,11 @@ class TransactionsHistoryController extends Controller
     }
 
     public function getAll(Request $request){
-       return app(Contracts\GetClientTransactionsHistory::class)->execute(
+       $data = app(Contracts\GetClientTransactionsHistory::class)->execute(
            $request->from,
            $request->to
        );
+       return PaginationHelper::paginate($data, 7);
     }
 
 }

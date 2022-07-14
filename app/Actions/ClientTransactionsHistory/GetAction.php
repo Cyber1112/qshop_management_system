@@ -18,8 +18,7 @@ class GetAction implements GetClientTransactionsHistory{
 
     public function execute(string $from, string $to): Collection
     {
-        return $this->getData($from, $to)->groupBy('created_at');
-
+        return $this->getData($from, $to)->sortBy('created_at');
 
     }
 
