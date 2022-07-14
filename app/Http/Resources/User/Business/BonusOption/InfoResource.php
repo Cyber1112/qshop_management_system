@@ -19,7 +19,7 @@ class InfoResource extends JsonResource
         return [
             'bonus_percent' => $this->bonus_percent,
             'activation_bonus_period' => $this->activation_bonus_period,
-            'deactivation_bonus_period' => $this->activation_bonus_period
+            'deactivation_bonus_period' => $this->deactivation_bonus_period
         ];
     }
 }
