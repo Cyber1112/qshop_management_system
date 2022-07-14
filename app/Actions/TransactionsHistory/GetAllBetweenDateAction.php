@@ -30,7 +30,7 @@ class GetAllBetweenDateAction implements GetAllTransactionsHistoryBetweenDate{
                 'phone_number' => $row['phone_number'],
                 'created_at' => date('Y-m-d', strtotime($row['created_at']))
             ];
-        });
+        })->sortBy('created_at');
     }
 
     public function getData(string $from, string $to){

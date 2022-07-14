@@ -7,6 +7,7 @@ use App\Models\TransactionHistory;
 use Illuminate\Http\Request;
 use App\Contracts;
 use App\Http\Resources;
+use App\Helpers\PaginationHelper;
 
 class TransactionsHistoryController extends Controller
 {
@@ -19,10 +20,11 @@ class TransactionsHistoryController extends Controller
     }
 
     public function getAllBetweenDate(Request $request){
-        return app(Contracts\GetAllTransactionsHistoryBetweenDate::class)->execute(
+        $data = app(Contracts\GetAllTransactionsHistoryBetweenDate::class)->execute(
             $request->from,
             $request->to
         );
+        return PaginationHelper::paginate($data, 5);
     }
 
     public function getDetailClientTransaction(Request $request, TransactionHistory $history){
