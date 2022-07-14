@@ -32,6 +32,8 @@ class CreateAction implements CreateBusinessWithdrawal {
 
         $data = $this->getBusinessClientData($client_id);
 
+        $this->ensureThatHasEnoughBonus($data, $dto->cash);
+
         $total = $dto->cash;
         $count = 0;
 
@@ -52,6 +54,13 @@ class CreateAction implements CreateBusinessWithdrawal {
             $this->setCommentToTransactionHistory($transaction->id, $dto->comment);
         }
 
+    }
+
+    public function ensureThatHasEnoughBonus($data, $bonus){
+        $cash = $data->sum('balance');
+        if ($cash < $bonus){
+            throw new AccessDeniedHttpException("Not enough bonus");
+        }
     }
 
     public function setTransactionHistory(int $cash, string $task, int $client_id){
