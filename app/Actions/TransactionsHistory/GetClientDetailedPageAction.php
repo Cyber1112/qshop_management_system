@@ -28,8 +28,8 @@ class GetClientDetailedPageAction implements GetClientDetailedPage {
         $withdrawn = 0;
 
         foreach ($data as $item){
+            $number_of_transactions += 1;
             if ($item['task'] == 'accrual'){
-                $number_of_transactions += 1;
                 $sum_total_transactions += $item['cash'];
                 $accrued += (int)(($item['bonus_percent']*$item['cash'])/100);
             }else{

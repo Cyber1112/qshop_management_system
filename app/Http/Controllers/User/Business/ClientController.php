@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\TransactionHistory;
 use Illuminate\Http\Request;
 use App\Contracts;
+use App\Helpers\PaginationHelper;
 
 class ClientController extends Controller
 {
@@ -24,11 +25,12 @@ class ClientController extends Controller
     }
 
     public function getClientDetailAll(Request $request, Client $client){
-        return app(Contracts\GetClientAllDetailsPage::class)->execute(
+        $data = app(Contracts\GetClientAllDetailsPage::class)->execute(
             $client,
             $request->from,
             $request->to
         );
+        return PaginationHelper::paginate($data, 5);
     }
 
     public function search(Request $request){
