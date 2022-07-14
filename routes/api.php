@@ -50,9 +50,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         });
 
         Route::prefix('accrue-balance')->group(function(){
-            Route::get('get', [BalanceController::class, 'get']);
             Route::post('/choose-card', [BalanceController::class, 'chooseCard']);
             Route::post('/confirm', [BalanceController::class, 'confirm']);
+        });
+
+        Route::prefix('balance')->group(function(){
+            Route::get('get', [BalanceController::class, 'getBalance']);
+            Route::get('get-history', [BalanceController::class, 'getHistory']);
         });
 
         Route::prefix('city')->group(function(){

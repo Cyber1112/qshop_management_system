@@ -8,11 +8,14 @@ use App\Contracts\ApiGetCardBalanceHistory;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Business\Balance\APIChooseCardRequest;
 use App\Http\Requests\Business\Balance\APIConfirmRequest;
+use App\Models\Business;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Throwable;
+use App\Helpers;
+use App\Http\Resources;
 
 class BalanceController extends Controller
 {
@@ -29,7 +32,12 @@ class BalanceController extends Controller
     }
 
 
-    public function get(Request $request){
+    public function getBalance(Request $request){
+        $business_id = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
+        return new Resources\User\Business\Account\BalanceResource(Business::find($business_id));
+    }
+
+    public function getHistory(Request $request){
         return $this->balanceHistory->execute();
     }
 
