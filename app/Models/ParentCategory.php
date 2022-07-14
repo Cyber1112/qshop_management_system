@@ -13,4 +13,9 @@ class ParentCategory extends Model
     protected $fillable = [
         'category_name',
     ];
+
+    public function parentChildCategories(){
+        return $this->hasMany(ChildCategory::class, 'category_id');
+    }
+
 }

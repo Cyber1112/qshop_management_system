@@ -18,7 +18,14 @@ class ParentCategoryResource extends JsonResource
         /** @var ParentCategory $this */
         return [
             'category_id' => $this->id,
-            'category_name' => $this->category_name
+            'category_name' => $this->category_name,
+            'child-categories' => $this->parentChildCategories->map(function ($row){
+                return [
+                    'id' => $row['id'],
+                    'category_name' => $row['category_name'],
+                    'category_id' => $row['category_id']
+                ];
+            })
         ];
     }
 }

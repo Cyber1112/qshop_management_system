@@ -19,4 +19,5 @@ class ChildCategory extends Model
     {
         return $this->belongsToMany(Business::class, 'business_child_categories', 'category_id', 'business_id');
     }
+
 }
