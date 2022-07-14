@@ -20,17 +20,10 @@ class UpdateAction implements UpdateBusinessContacts {
 
     public function execute(CreateDto $dto, BusinessContacts $contacts): void
     {
-        $this->ensureThatCanEditProfile();
-
         app(Tasks\BusinessContacts\UpdateTask::class)->run(
             $contacts->id,
             $dto->toArray()
         );
     }
 
-    public function ensureThatCanEditProfile(){
-        if(!Auth::user()->hasPermissionTo('edit profile')){
-            throw new AccessDeniedHttpException("You do not have permission to edit profile");
-        }
-    }
 }

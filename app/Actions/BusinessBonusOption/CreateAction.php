@@ -19,19 +19,11 @@ class CreateAction implements CreateBusinessBonusOption{
 
     public function execute(CreateDto $dto): void
     {
-        $this->ensureThatCanEditProfile();
-
         $this->delete();
 
         app(Tasks\BusinessBonusOption\CreateTask::class)->run(
             $dto->toArray() + ['business_id' => $this->business_id]
         );
-    }
-
-    public function ensureThatCanEditProfile(){
-        if(!Auth::user()->hasPermissionTo('edit profile')){
-            throw new AccessDeniedHttpException("You do not have permission to edit profile");
-        }
     }
 
     public function delete(){

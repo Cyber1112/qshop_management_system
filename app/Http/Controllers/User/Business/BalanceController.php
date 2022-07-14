@@ -47,7 +47,7 @@ class BalanceController extends Controller
      */
     public function chooseCard(APIChooseCardRequest $request)
     {
-        $response = $this->choose_card_action->apply(User::find(Auth::user())->first(), $request->get('card_id'));
+        $response = $this->choose_card_action->apply(User::find(Auth::user()->id)->first(), $request->get('card_id'));
 
         if(is_array($response)){
             return response()->json($response, 200);
@@ -61,7 +61,7 @@ class BalanceController extends Controller
      */
     public function confirm(APIConfirmRequest $request)
     {
-        $response = $this->confirm_action->apply(User::find(Auth::user())->first(), $request->get('card_id'), $request->get('cash'));
+        $response = $this->confirm_action->apply(User::find(Auth::user()->id)->first(), $request->get('card_id'), $request->get('cash'));
 
         if(!$response){
             return response()->json([], 200);

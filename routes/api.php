@@ -34,79 +34,95 @@ Route::post('/login', [LoginController::class, 'login']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
-    Route::prefix('business')->group(function () {
+    Route::group(['prefix' => 'business', 'middleware' => ['role:business|employee']], function(){
         Route::get('about', [AboutBusinessController::class, 'get']);
 
-        Route::prefix('account')->group(function (){
+        Route::group(['prefix' => 'account'], function(){
             Route::get('/get', [BusinessProfileController::class, 'index']);
-            Route::post('/update', [BusinessProfileController::class, 'update']);
-            Route::delete('/delete', [BusinessProfileController::class, 'deleteAvatar']);
+            Route::group(['middleware' => 'can:edit profile'], function (){
+                Route::post('/update', [BusinessProfileController::class, 'update']);
+                Route::delete('/delete', [BusinessProfileController::class, 'deleteAvatar']);
+            });
         });
 
-        Route::prefix('card')->group(function(){
+        Route::group(['prefix' => 'card', 'middleware' => 'can:replenish balance'], function (){
             Route::get('/get', [CardController::class, 'index']);
             Route::post('/add', [CardController::class, 'add']);
             Route::delete('/delete/{card_id}', [CardController::class, 'delete']);
         });
 
-        Route::prefix('accrue-balance')->group(function(){
+        Route::group(['prefix' => 'accrue-balance', 'middleware' => 'can:replenish balance'], function (){
             Route::post('/choose-card', [BalanceController::class, 'chooseCard']);
             Route::post('/confirm', [BalanceController::class, 'confirm']);
         });
 
-        Route::prefix('balance')->group(function(){
+        Route::group(['prefix' => 'balance'], function(){
             Route::get('get', [BalanceController::class, 'getBalance']);
             Route::get('get-history', [BalanceController::class, 'getHistory']);
         });
 
-        Route::prefix('city')->group(function(){
+        Route::group(['prefix' => 'city'], function (){
             Route::get('get', [CityController::class, 'show']);
-            Route::put('/set', [CityController::class, 'setCity']);
+            Route::group(['middleware' => 'can:edit profile'], function (){
+                Route::put('/set', [CityController::class, 'setCity']);
+            });
         });
 
-        Route::prefix('description')->group(function(){
+        Route::group(['prefix' => 'description'], function(){
             Route::get('/get/{description}', [DescriptionController::class, 'show']);
-            Route::post('/create', [DescriptionController::class, 'create']);
-            Route::put('/update/{description}', [DescriptionController::class, 'update']);
+            Route::group(['middleware' => 'can:edit profile'], function(){
+                Route::post('/create', [DescriptionController::class, 'create']);
+                Route::put('/update/{description}', [DescriptionController::class, 'update']);
+            });
         });
 
-        Route::prefix('contacts')->group(function(){
+        Route::group(['prefix' => 'contacts'], function(){
             Route::get('/get/{contacts}', [ContactsController::class, 'show']);
-            Route::post('/create', [ContactsController::class, 'create']);
-            Route::put('/update/{contacts}', [ContactsController::class, 'update']);
+            Route::group(['middleware' => 'can:edit profile'], function(){
+                Route::post('/create', [ContactsController::class, 'create']);
+                Route::put('/update/{contacts}', [ContactsController::class, 'update']);
+            });
         });
 
-        Route::prefix('schedule')->group(function(){
+        Route::group(['prefix' => 'schedule'], function(){
             Route::get('/get/{schedule}', [ScheduleController::class, 'show']);
-            Route::post('/create', [ScheduleController::class, 'create']);
-            Route::put('/update/{schedule}', [ScheduleController::class, 'update']);
+            Route::group(['middleware' => 'can:edit profile'], function(){
+                Route::post('/create', [ScheduleController::class, 'create']);
+                Route::put('/update/{schedule}', [ScheduleController::class, 'update']);
+            });
         });
 
-        Route::prefix('category')->group(function(){
+        Route::group(['prefix' => 'category'], function(){
             Route::get('/get', [BusinessCategoryController::class, 'get']);
-            Route::post('/create', [BusinessCategoryController::class, 'createOrUpdate']);
+            Route::group(['middleware' => 'can:edit profile'], function(){
+                Route::post('/create', [BusinessCategoryController::class, 'createOrUpdate']);
+            });
         });
 
-        Route::prefix('employee')->group(function (){
+        Route::group(['prefix' => 'employee'], function(){
             Route::get('get', [EmployeeController::class, 'getBusinessEmployees']);
-            Route::post('/create', [EmployeeController::class, 'create']);
-            Route::delete('/delete/{employee}', [EmployeeController::class, 'deleteEmployee']);
+            Route::group(['middleware' => 'can:create employee'], function(){
+                Route::post('/create', [EmployeeController::class, 'create']);
+                Route::delete('/delete/{employee}', [EmployeeController::class, 'deleteEmployee']);
+            });
         });
 
-        Route::prefix('bonus-options')->group(function (){
+        Route::group(['prefix' => 'bonus-options'], function(){
             Route::get('/get', [BonusOptionsController::class, 'get']);
-            Route::post('/create', [BonusOptionsController::class, 'createOrUpdate']);
+            Route::group(['middleware' => 'can:manipulate bonus'], function(){
+                Route::post('/create', [BonusOptionsController::class, 'createOrUpdate']);
+            });
         });
 
-        Route::prefix('payment')->group(function (){
+        Route::group(['prefix' => 'payment', 'middleware' => 'can:manipulate bonus'], function(){
             Route::post('/create', [PaymentController::class, 'create']);
         });
 
-        Route::prefix('withdrawal')->group(function (){
+        Route::group(['prefix' => 'withdrawal', 'middleware' => 'can:manipulate bonus'], function(){
             Route::post('/create', [WriteOffController::class, 'create']);
         });
 
-        Route::prefix('transactions')->group(function(){
+        Route::group(['prefix' => 'transactions'], function(){
             Route::get('/get', [BusinessTransactionsHistoryController::class, 'getBetweenDate']);
             Route::get('/get-all', [BusinessTransactionsHistoryController::class, 'getAllBetweenDate']);
             Route::get('/get-client-detail/{history}', [BusinessTransactionsHistoryController::class, 'getDetailClientTransaction']);
@@ -115,50 +131,49 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             });
         });
 
-        Route::prefix('clients')->group(function (){
+        Route::group(['prefix' => 'clients'], function(){
             Route::get('/get', [BusinessClientController::class, 'get']);
             Route::get('/get-detail/{client}', [BusinessClientController::class, 'getClientDetail']);
             Route::get('/get-detail-all/{client}', [BusinessClientController::class, 'getClientDetailAll']);
             Route::get('/search', [BusinessClientController::class, 'search']);
         });
 
-        Route::prefix('statistics')->group(function(){
+        Route::group(['prefix' => 'statistics'], function(){
             Route::get('/get', [StatisticsController::class, 'get']);
         });
     });
 
-    Route::prefix('client')->group(function(){
+    Route::group(['prefix' => 'client', 'middleware' => 'role:client'], function(){
 
-        Route::prefix('main')->group(function (){
+        Route::group(['prefix' => 'main'], function(){
             Route::get('get', [ClientMainPageController::class, 'get']);
             Route::get('get-unactivated-bonus', [ClientMainPageController::class, 'getUnactivatedBonus']);
         });
 
-        Route::prefix('profile')->group(function(){
+        Route::group(['prefix' => 'profile'], function(){
             Route::get('get', [ClientProfileController::class, 'index']);
             Route::post('update', [ClientProfileController::class, 'update']);
             Route::delete('delete', [ClientProfileController::class, 'deleteAvatar']);
         });
 
-        Route::prefix('partners')->group(function(){
+        Route::group(['prefix' => 'partners'], function(){
             Route::get('get', [ClientPartnersController::class, 'get']);
             Route::get('detail/{business}', [ClientPartnersController::class, 'showPartner']);
             Route::get('search', [ClientPartnersController::class, 'search']);
         });
 
-        Route::prefix('transactions')->group(function(){
+        Route::group(['prefix' => 'transactions'], function(){
             Route::get('get-detail/{history}', [ClientTransactionsHistoryController::class, 'getDetail']);
             Route::get('get-all', [ClientTransactionsHistoryController::class, 'getAll']);
         });
 
-        Route::prefix('category')->group(function(){
+        Route::group(['prefix' => 'category'], function(){
             Route::get('get/{category}', [ClientCategoryController::class, 'get']);
         });
 
-
     });
 
-    Route::prefix('category')->group(function(){
+    Route::group(['prefix' => 'category'], function(){
         Route::get('get-parent', [ParentCategoryController::class, 'get']);
         Route::get('get-child/{category}', [ChildCategoryController::class, 'get']);
     });

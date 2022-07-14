@@ -13,18 +13,10 @@ class UpdateAction implements UpdateBusinessSchedule {
 
     public function execute(CreateDto $dto, BusinessSchedule $schedule): void
     {
-        $this->ensureThatCanEditProfile();
-
         app(Tasks\BusinessSchedule\UpdateTask::class)->run(
             $schedule->id,
             $dto->toArray()
         );
-    }
-
-    public function ensureThatCanEditProfile(){
-        if(!Auth::user()->hasPermissionTo('edit profile')){
-            throw new AccessDeniedHttpException("You do not have permission to edit profile");
-        }
     }
 
 }

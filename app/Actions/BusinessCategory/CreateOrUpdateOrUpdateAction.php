@@ -18,7 +18,6 @@ class CreateOrUpdateOrUpdateAction implements CreateOrUpdateBusinessCategories {
 
     public function execute(array $categories_id): void
     {
-        $this->ensureThatCanEditProfile();
 
         $this->deleteCategories();
 
@@ -32,11 +31,6 @@ class CreateOrUpdateOrUpdateAction implements CreateOrUpdateBusinessCategories {
         }
     }
 
-    public function ensureThatCanEditProfile(){
-        if(!Auth::user()->hasPermissionTo('edit profile')){
-            throw new AccessDeniedHttpException("You do not have permission to edit profile");
-        }
-    }
 
     public function deleteCategories(){
         app(Tasks\BusinessCategory\DeleteAllCategoriesByBusinessId::class)->run($this->business_id);

@@ -22,7 +22,6 @@ class CreateAction implements CreateBusinessWithdrawal {
 
     public function execute(CreateDto $dto): void
     {
-        $this->ensureThatCanManipulateBonus();
 
         $client = app(Tasks\User\FindByPhoneTask::class)->run($dto->phone_number);
 
@@ -95,12 +94,6 @@ class CreateAction implements CreateBusinessWithdrawal {
             'transaction_history_id' => $transaction_id,
             'comment' => $comment
         ]);
-    }
-
-    public function ensureThatCanManipulateBonus(){
-        if(!Auth::user()->hasPermissionTo('manipulate bonus')){
-            throw new AccessDeniedHttpException("You do not have permission to manipulate bonus");
-        }
     }
 
 }

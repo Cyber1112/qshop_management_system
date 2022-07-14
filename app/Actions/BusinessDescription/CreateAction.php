@@ -18,20 +18,12 @@ class CreateAction implements CreateBusinessDescription{
 
     public function execute(string $description): void
     {
-        $this->ensureThatCanEditProfile();
-
         app(Tasks\BusinessDescription\CreateTask::class)->run(
             [
                 'description' => $description,
                 'business_id' => $this->business
             ]
         );
-    }
-
-    public function ensureThatCanEditProfile(){
-        if(!Auth::user()->hasPermissionTo('edit profile')){
-            throw new AccessDeniedHttpException("You do not have permission to edit profile");
-        }
     }
 
 }

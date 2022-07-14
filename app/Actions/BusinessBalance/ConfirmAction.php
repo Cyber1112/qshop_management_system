@@ -24,8 +24,6 @@ class ConfirmAction extends BalanceAction implements APIConfirmBalanceContract {
     {
         $business_id = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
 
-        $this->ensureThatCanReplenishBalance();
-
         /** @var Payment $payment */
         $payment = $this->payment_repository->create([
             'user_id' => $user->id,
@@ -52,13 +50,6 @@ class ConfirmAction extends BalanceAction implements APIConfirmBalanceContract {
             return response()->json(['message' => 'Ошибка на стороне платежной системы!'], 422)->send();
         }else{
             return response()->json(['message' => $payment_response['message']], 422)->send();
-        }
-    }
-
-
-    public function ensureThatCanReplenishBalance(){
-        if(!Auth::user()->hasPermissionTo('replenish balance')){
-            throw new AccessDeniedHttpException("You do not have permission to replenish balance");
         }
     }
 

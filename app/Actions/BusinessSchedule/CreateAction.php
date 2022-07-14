@@ -19,17 +19,9 @@ class CreateAction implements CreateBusinessSchedule{
 
     public function execute(CreateDto $dto): void
     {
-        $this->ensureThatCanEditProfile();
-
         app(Tasks\BusinessSchedule\CreateTask::class)->run(
             $dto->toArray() + ["business_id" => $this->business_id]
         );
-    }
-
-    public function ensureThatCanEditProfile(){
-        if(!Auth::user()->hasPermissionTo('edit profile')){
-            throw new AccessDeniedHttpException("You do not have permission to edit profile");
-        }
     }
 
 }
