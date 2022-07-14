@@ -57,6 +57,11 @@ class GetAction implements GetBusinessStatistics {
 
         return $data->filter(function($value) use($dayOfWeek){
             return $value['created_at'] > Carbon::now()->subDays($dayOfWeek);
+        })->map(function($row){
+            return [
+                'cash' => $row['cash'],
+                'created_at' => date('l', strtotime($row['created_at'])),
+            ];
         })->groupBy('created_at')->map(function($row, $key){
             return $row->sum('cash');
         });
