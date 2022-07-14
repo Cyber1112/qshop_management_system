@@ -20,13 +20,10 @@ class GetBetweenDateAction implements GetTransactionsHistoryBetweenDate{
     {
         $data = $this->getData($from, $to);
 
-        $numberOfTransactions = $this->getCountTransactions($data);
-        $totalSum = $this->getTotalSumTransactions($data);
-
         return collect([
-            "total_transactions" => $numberOfTransactions,
-            "total_sum" => $totalSum,
-            "average" => (int) ($totalSum/$numberOfTransactions),
+            "total_transactions" => $this->getCountTransactions($data),
+            "total_sum" => $this->getTotalSumTransactions($data),
+            "average" => $this->getAverage($data),
             "accrued_bonus" => $this->getAccruedBonus($data),
             "written_off_bonus" => $this->getWrittenOffBonus($data)
         ]);
@@ -43,7 +40,13 @@ class GetBetweenDateAction implements GetTransactionsHistoryBetweenDate{
     }
 
     public function getCountTransactions($data){
-        return $data->where('task', 'accrual')->count();
+        return $data->count();
+    }
+
+    public function getAverage($data){
+        $numberOfAccrualTasks = $data->where('task', 'accrual')->count();
+        $cash = $data->where('task', 'accrual')->sum('cash');
+        return (int)($cash / $numberOfAccrualTasks);
     }
 
     public function getTotalSumTransactions($data){
